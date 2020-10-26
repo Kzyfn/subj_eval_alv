@@ -19,8 +19,8 @@ import pyworld
 import pysptk
 import librosa
 import librosa.display
-import IPython
-from IPython.display import Audio
+#import IPython
+#from IPython.display import Audio
 
 import matplotlib.pyplot as plt
 
@@ -31,12 +31,12 @@ import torch.nn.functional as F
 import time
 import numpy as np
 from tqdm import tnrange, tqdm
-import optuna
+#import optuna
 import os
 import random
 
 import pandas as pd
-y_stats = pd.read_csv('../../asj_vae/data/y_stats.csv')
+y_stats = pd.read_csv('static/data/y_stats.csv')
 
 
 from models import VQVAE
