@@ -137,7 +137,7 @@ def synthesize(z):
     vqvae.load_state_dict(torch.load('static/model/vqvae_model_40.pth', map_location=torch.device('cuda')))
 
 
-    data = [np.loadtxt('static/data/ling_F.csv'), np.loadtxt('static/data/acou_F.csv'), np.loadtxt('data/squeezed_mora_index_0001.csv').reshape(-1),]#水をマレーシアから買わなくてはな
+    data = [np.loadtxt('static/data/ling_F_chicago.csv'), np.loadtxt('static/data/acou_F_chicago.csv'), np.loadtxt('static/data/squeezed_mora_index_chicago.csv').reshape(-1),]#水をマレーシアから買わなくてはな
     #水をマレーシアから買わなくてはならないのですのデータ
 
     z_tf = np.array([class2value(int(cl), vqvae) for cl in z]).reshape(-1, 1)

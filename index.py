@@ -26,7 +26,7 @@ def picked_up():
 def index():
     title = "ようこそ"
     message = picked_up()
-    target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+    target_sentence = 'シカゴいきのびんをよやくしたいのですが'
 
     sentence_form = []
     for i, letter in enumerate(target_sentence):
@@ -45,12 +45,12 @@ def index():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
     title = "こんにちは"
-    target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+    target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
     if request.method == 'POST':
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(23):
+        for i in range(19):
             z.append(request.form[str(i)])
 
         sentence_form = []
@@ -65,7 +65,7 @@ def post():
 
         speech_filepath = synthesize(z)
         #speech_filepath='../wav/sample.wav'
-        target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+        target_sentence = 'シカゴいきのびんをよやくしたいのですが'
 
         return render_template('index.html',
                              title=title, filepath = speech_filepath, target_sentence=target_sentence, sentence_form=sentence_form)
@@ -80,7 +80,7 @@ def done():
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(23):
+        for i in range(19):
             z.append(int(request.form[str(i)]))
 
         #speech_filepath = synthesize(z)
