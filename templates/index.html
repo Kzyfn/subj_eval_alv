@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+  <!-- Form
+  ================================================== -->
+<div class="form">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">
+          下のフォームから，大阪弁らしくきこえるアクセントラベルを作成してください．
+        </p>
+
+        
+        <div class="row" style='display: flex; flex-direction: row; align-items: stretch;'>
+    
+
+
+
+          <form action="/post" method="post" class="form-inline" id="accent_labels">
+            <div class="col" style='display: flex; flex-direction: column;'>
+              <p>音</p>
+              <p>高い</p>
+              <p>低い</p>
+            </div>
+
+            <div class="row" style='flex-direction: row; display: flex;'>
+            {% for letter_form in sentence_form %}
+            <!-- ループの中身 -->
+              <div class="col" style='flex-direction: column; display: flex;'>
+                {% autoescape false %}
+                {{ letter_form }}
+                {% endautoescape %}
+              </div>
+            {% endfor %}
+            </div>
+
+            
+          <button type="submit" class="btn btn-default" style='border-color: black;'>送信する</button>
+          </form>
+        </div>
+
+        {% if filepath %}
+        <div style='display: flex; flex-direction: column;'>
+
+          <audio
+          style='margin: 5pt;'
+          controls
+          src="/static/wav/sample.wav">
+              Your browser does not support the
+              <code>audio</code> element.
+          </audio>
+
+          <button type="submit" class="btn btn-default" form='accent_labels' formaction='/done' style='border-color: black; align-self: start;' >完了する</button>
+        </div>
+        
+
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
