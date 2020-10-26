@@ -1,0 +1,16 @@
+{
+	"listeners": {
+	  "*:8080":{
+	    "pass" : "applications/subj_eval_alv"
+	  }
+	},
+
+	"applications": {
+	  "subj_eval_alv":{
+	    "type": "python",
+	    "processes": 2,
+	    "path": "/subj_eval_alv/",
+	    "module": "index"
+	  }
+	}
+}

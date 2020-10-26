@@ -1,3 +1,4 @@
+## coding: UTF-8
 # Flask などの必要なライブラリをインポートする
 from flask import Flask, render_template, request, redirect, url_for
 import numpy as np
