@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import numpy as np
 
-from speech_model import synthesize
+from speech_model import synthesize, randomname
 #synthesize は音声ファイルのパスを返す
 
 # 自身の名称を app という名前でインスタンス化する
@@ -63,8 +63,8 @@ def post():
 
             sentence_form.append(letter_form)
 
-        #speech_filepath = synthesize(z)
-        speech_filepath='../wav/sample.wav'
+        speech_filepath = synthesize(z)
+        #speech_filepath='../wav/sample.wav'
         target_sentence = 'みずをマレーシアから買わなくてはならないのです'
 
         return render_template('index.html',
@@ -80,12 +80,14 @@ def done():
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(1, 24):
-            z.append(request.form[str(i)])
+        for i in range(23):
+            z.append(int(request.form[str(i)]))
 
         #speech_filepath = synthesize(z)
+        result_path = randomname(10)
+        np.savetxt('static/results/{}.csv'.format(result_path), z)
 
-        return render_template('index.html', filepath = speech_filepath)
+        return render_template('done.html', result_path = result_path)
     else:
         # エラーなどでリダイレクトしたい場合はこんな感じで
         return redirect(url_for('index'))
