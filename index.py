@@ -1,8 +1,9 @@
+## coding: UTF-8
 # Flask などの必要なライブラリをインポートする
 from flask import Flask, render_template, request, redirect, url_for
 import numpy as np
 
-from speech_model import synthesize
+from speech_model import synthesize, randomname
 #synthesize は音声ファイルのパスを返す
 
 # 自身の名称を app という名前でインスタンス化する
@@ -26,7 +27,7 @@ def picked_up():
 def index():
     title = "ようこそ"
     message = picked_up()
-    target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+    target_sentence = 'シカゴいきのびんをよやくしたいのですが'
 
     sentence_form = []
     for i, letter in enumerate(target_sentence):
@@ -45,12 +46,12 @@ def index():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
     title = "こんにちは"
-    target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+    target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
     if request.method == 'POST':
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(23):
+        for i in range(19):
             z.append(request.form[str(i)])
 
         sentence_form = []
@@ -63,9 +64,9 @@ def post():
 
             sentence_form.append(letter_form)
 
-        #speech_filepath = synthesize(z)
-        speech_filepath='../wav/sample.wav'
-        target_sentence = 'みずをマレーシアから買わなくてはならないのです'
+        speech_filepath = synthesize(z)
+        #speech_filepath='../wav/sample.wav'
+        target_sentence = 'シカゴいきのびんをよやくしたいのですが'
 
         return render_template('index.html',
                              title=title, filepath = speech_filepath, target_sentence=target_sentence, sentence_form=sentence_form)
@@ -80,12 +81,14 @@ def done():
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(1, 24):
-            z.append(request.form[str(i)])
+        for i in range(19):
+            z.append(int(request.form[str(i)]))
 
         #speech_filepath = synthesize(z)
+        result_path = randomname(10)
+        np.savetxt('static/results/{}.csv'.format(result_path), z)
 
-        return render_template('index.html', filepath = speech_filepath)
+        return render_template('done.html', result_path = result_path)
     else:
         # エラーなどでリダイレクトしたい場合はこんな感じで
         return redirect(url_for('index'))
