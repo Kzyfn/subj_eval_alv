@@ -1,13 +1,13 @@
 alembic==1.4.2
 appdirs==1.4.4
-argon2-cffi @ file:///tmp/build/80754af9/argon2-cffi_1596828496740/work
+argon2-cffi
 attrs==19.3.0
 audioread==2.1.8
 backcall==0.2.0
 bandmat==0.7
 bleach==3.1.5
 certifi==2020.6.20
-cffi @ file:///tmp/build/80754af9/cffi_1596809862272/work
+cffi 
 chardet==3.0.4
 click==7.1.2
 cliff==3.4.0
@@ -25,18 +25,14 @@ fastdtw==0.3.4
 Flask==1.1.2
 future==0.18.2
 idna==2.10
-importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1593446433964/work
-ipykernel @ file:///tmp/build/80754af9/ipykernel_1596206602906/work/dist/ipykernel-5.3.4-py3-none-any.whl
-ipython @ file:///tmp/build/80754af9/ipython_1593447367857/work
-ipython-genutils==0.2.0
-ipywidgets==7.5.1
+importlib-metadata
 itsdangerous==1.1.0
-jedi @ file:///tmp/build/80754af9/jedi_1592841914522/work
+jedi
 Jinja2==2.11.2
 joblib==0.16.0
 jsonschema==3.2.0
 jupyter==1.0.0
-jupyter-client @ file:///tmp/build/80754af9/jupyter_client_1594826976318/work
+jupyter-client
 jupyter-console==6.1.0
 jupyter-core==4.6.3
 kiwisolver==1.2.0
@@ -49,7 +45,7 @@ mistune==0.8.4
 nbconvert==5.6.1
 nbformat==5.0.7
 nnmnkwii==0.0.20
-notebook @ file:///tmp/build/80754af9/notebook_1596838602091/work
+notebook
 numba==0.50.1
 numpy==1.19.1
 optuna==2.0.0
@@ -67,7 +63,7 @@ prettytable==0.7.2
 prometheus-client==0.8.0
 prompt-toolkit==3.0.5
 ptyprocess==0.6.0
-pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pycparser 
 Pygments==2.6.1
 pyparsing==2.4.7
 pyperclip==1.8.0
@@ -79,7 +75,7 @@ pytz==2020.1
 pyworld==0.2.10
 PyYAML==5.3.1
 pyzmq==19.0.1
-qtconsole @ file:///tmp/build/80754af9/qtconsole_1592848611704/work
+qtconsole
 QtPy==1.9.0
 requests==2.24.0
 resampy==0.2.2
@@ -101,7 +97,7 @@ tornado==6.0.4
 tqdm==4.48.2
 traitlets==4.3.3
 urllib3==1.25.10
-wcwidth @ file:///tmp/build/80754af9/wcwidth_1593447189090/work
+wcwidth 
 webencodings==0.5.1
 Werkzeug==1.0.1
 widgetsnbextension==3.5.1
