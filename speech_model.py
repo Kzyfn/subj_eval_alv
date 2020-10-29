@@ -91,8 +91,6 @@ def gen_parameters(y_predicted, verbose=True):
     #lf0 = Y['acoustic']['train'][90][:, lf0_start_idx:vuv_start_idx]
     #lf0 = np.zeros(lf0.shape)
     vuv = y_predicted[:,vuv_start_idx]
-
-    plt.show()
     bap = y_predicted[:,bap_start_idx:]
     
     # Perform MLPG
@@ -131,10 +129,10 @@ def class2value(cl, model):
     return codebook[cl]
 
 
-def synthesize(z):
+def synthesize(z, rate=1):
 
     vqvae = VQVAE(num_layers=2, z_dim=1, num_class=4, input_linguistic_dim = 289+2).to(device)
-    vqvae.load_state_dict(torch.load('static/model/vqvae_model_40.pth', map_location=torch.device('cuda')))
+    vqvae.load_state_dict(torch.load('static/model/vqvae_model_40.pth', map_location=torch.device(device)))
 
 
     data = [np.loadtxt('static/data/ling_F_chicago.csv'), np.loadtxt('static/data/acou_F_chicago.csv'), np.loadtxt('static/data/squeezed_mora_index_chicago.csv').reshape(-1),]#水をマレーシアから買わなくてはな
@@ -162,7 +160,7 @@ def synthesize(z):
 
     filepath = './static/wav/BASIC5000_0001_{}.wav'.format(randomname(10))
 
-    wavfile.write(filepath, rate=fs, data=waveform.astype(np.int16))
+    wavfile.write(filepath, rate=int(fs*rate), data=waveform.astype(np.int16))
 
     return filepath
 

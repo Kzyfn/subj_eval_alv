@@ -2,7 +2,7 @@
 # Flask などの必要なライブラリをインポートする
 from flask import Flask, render_template, request, redirect, url_for
 import numpy as np
-
+from os import remove
 from speech_model import synthesize, randomname
 #synthesize は音声ファイルのパスを返す
 
@@ -27,7 +27,8 @@ def picked_up():
 def index():
     title = "ようこそ"
     message = picked_up()
-    target_sentence = 'シカゴいきのびんをよやくしたいのですが'
+    natural_sentence = 'シカゴ行きの便を予約したいのですが．'
+    target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
 
     sentence_form = []
     for i, letter in enumerate(target_sentence):
@@ -40,19 +41,27 @@ def index():
 
     # index.html をレンダリングする
     return render_template('index.html',
-                           message=message, title=title, target_sentence=target_sentence, sentence_form = sentence_form)
+                           message=message, title=title, target_sentence=target_sentence, sentence_form = sentence_form, natural_sentence=natural_sentence, rate=1)
 
 # /post にアクセスしたときの処理
 @app.route('/post', methods=['GET', 'POST'])
 def post():
     title = "こんにちは"
+    natural_sentence = 'シカゴ行きの便を予約したいのですが．'
     target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
     if request.method == 'POST':
         # リクエストフォームから「名前」を取得して
+        
+        if request.form.get('filepath') is not None:
+            #直前の音声データは削除
+            filepath = request.form.get('filepath')
+            remove(filepath)
 
         z = []
         for i in range(19):
             z.append(request.form[str(i)])
+
+        rate = float(request.form['rate'])
 
         sentence_form = []
         for i, letter in enumerate(target_sentence):
@@ -64,12 +73,14 @@ def post():
 
             sentence_form.append(letter_form)
 
-        speech_filepath = synthesize(z)
-        #speech_filepath='../wav/sample.wav'
-        target_sentence = 'シカゴいきのびんをよやくしたいのですが'
+        speech_filepath = synthesize(z, rate)
+
+        #speech_filepath='/static/wav/sample.wav'
+        target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
+
 
         return render_template('index.html',
-                             title=title, filepath = speech_filepath, target_sentence=target_sentence, sentence_form=sentence_form)
+                             title=title, filepath = speech_filepath, target_sentence=target_sentence, sentence_form=sentence_form, natural_sentence=natural_sentence, rate=rate)
     else:
         # エラーなどでリダイレクトしたい場合はこんな感じで
         return redirect(url_for('index'))
