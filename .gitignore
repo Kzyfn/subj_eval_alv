@@ -5,3 +5,5 @@
 !.elasticbeanstalk/*.global.yml
 
 static/wav/
+*.pth
+__pycache__/*

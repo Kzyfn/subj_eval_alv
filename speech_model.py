@@ -131,23 +131,28 @@ def class2value(cl, model):
 
 def synthesize(z, rate=1):
 
-    vqvae = VQVAE(num_layers=2, z_dim=1, num_class=4, input_linguistic_dim = 289+2).to(device)
-    vqvae.load_state_dict(torch.load('static/model/vqvae_model_40.pth', map_location=torch.device(device)))
+    vqvae = VQVAE(num_layers=2, z_dim=1, num_class=4, input_linguistic_dim = 442+3+2, use_attention=True).to(device)
+    vqvae.load_state_dict(torch.load('static/vqvae_model_best.pth', map_location=torch.device(device)))
 
 
-    data = [np.loadtxt('static/data/ling_F_chicago.csv'), np.loadtxt('static/data/acou_F_chicago.csv'), np.loadtxt('static/data/squeezed_mora_index_chicago.csv').reshape(-1),]#水をマレーシアから買わなくてはな
+    data = [np.loadtxt('seqs_for_alv_control_test/linguistic_F.csv'), np.loadtxt('seqs_for_alv_control_test/acoustic_F.csv'), np.loadtxt('seqs_for_alv_control_test/mora_index.csv').reshape(-1),]#水をマレーシアから買わなくてはな
     #水をマレーシアから買わなくてはならないのですのデータ
 
-    z_tf = np.array([class2value(int(cl), vqvae) for cl in z]).reshape(-1, 1)
+    z_tf = np.array([class2value(int(cl), vqvae) for cl in z]).reshape(1, -1, 1)
 
 
 
 
 
     with torch.no_grad():
-        linguistic_f = data[0]
-        linguistic_f = np.concatenate((linguistic_f[:, :285], linguistic_f[:, -4:], np.ones((linguistic_f.shape[0], 1)), np.zeros((linguistic_f.shape[0], 1))), axis=1)
+        f0_mean, f0_std = np.array(data[1][:, 180].mean()).reshape(1,1), np.array(data[1][:, 180].std()).reshape(1,1)
+        indices = np.concatenate([np.arange(285), np.arange(335, 488), np.arange(531, 535)])
+        linguistic_f = data[0][:, indices]
+        linguistic_f = np.concatenate([linguistic_f, f0_mean.repeat(linguistic_f.shape[0], axis=0), f0_std.repeat(linguistic_f.shape[0], axis=0), 
+        np.zeros([linguistic_f.shape[0], 1]), np.ones([linguistic_f.shape[0], 1]), np.zeros([linguistic_f.shape[0], 1])], axis=1)
+
         linguistic_f = torch.from_numpy(linguistic_f).float().to(device)
+        # print(linguistic_f.size()) #torch.Size([344, 447])
         pred_lf0 = vqvae.decode(torch.from_numpy(z_tf).float().to(device), linguistic_f, data[2], tokyo=False).cpu().numpy().reshape(-1)
 
 

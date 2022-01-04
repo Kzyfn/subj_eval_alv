@@ -27,8 +27,8 @@ def picked_up():
 def index():
     title = "ようこそ"
     message = picked_up()
-    natural_sentence = 'シカゴ行きの便を予約したいのですが．'
-    target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
+    natural_sentence = '車ん中に落ちてたで．'
+    target_sentence = 'くるまんなかにおちてたで'
 
     sentence_form = []
     for i, letter in enumerate(target_sentence):
@@ -47,8 +47,8 @@ def index():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
     title = "こんにちは"
-    natural_sentence = 'シカゴ行きの便を予約したいのですが．'
-    target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
+    natural_sentence = '車ん中に落ちてたで．'
+    target_sentence = 'くるまんなかにおちてたで'
     if request.method == 'POST':
         # リクエストフォームから「名前」を取得して
         
@@ -58,7 +58,7 @@ def post():
             remove(filepath)
 
         z = []
-        for i in range(19):
+        for i in range(12):
             z.append(request.form[str(i)])
 
         rate = float(request.form['rate'])
@@ -76,7 +76,7 @@ def post():
         speech_filepath = synthesize(z, rate)
 
         #speech_filepath='/static/wav/sample.wav'
-        target_sentence = 'シカゴ行きのびんをよやくしたいのですが'
+        target_sentence = 'くるまんなかにおちてたで'
 
 
         return render_template('index.html',
@@ -92,7 +92,7 @@ def done():
         # リクエストフォームから「名前」を取得して
 
         z = []
-        for i in range(19):
+        for i in range(12):
             z.append(int(request.form[str(i)]))
 
         #speech_filepath = synthesize(z)
@@ -106,4 +106,4 @@ def done():
 
 if __name__ == '__main__':
     app.debug = True # デバッグモード有効化
-    app.run(host='0.0.0.0') # どこからでもアクセス可能に
+    app.run(host='0.0.0.0', port=5001) # どこからでもアクセス可能に
