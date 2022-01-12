@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import numpy as np
 from os import remove
 from speech_model import synthesize, randomname
+from IPython import embed
 #synthesize は音声ファイルのパスを返す
 
 # 自身の名称を app という名前でインスタンス化する
@@ -32,17 +33,20 @@ def index():
     'と', 'っ', 'て', 'る', 'こ', 'と', 'に', 'な', 'る']
 
     sentence_form = []
+    z = np.loadtxt('static/data/accent_rnn_z.csv')
+
     for i, letter in enumerate(target_sentence):
         letter_form = "<label>{}</label>".format(letter)
         for j in range(4):
-            tmp = '<input type="radio" name={} value={} required>'.format(i, j)
+            checked = 'checked' if z[i] == j else ''
+            tmp = '<input type="radio" name={} value={} required {}>'.format(i, j, checked)
             letter_form += tmp
 
         sentence_form.append(letter_form)
 
     # index.html をレンダリングする
     return render_template('index.html',
-                           message=message, title=title, target_sentence=target_sentence, sentence_form = sentence_form, natural_sentence=natural_sentence, rate=1)
+                           message=message, title=title, filepath='/static/wav/OSAKA3696_3447_accent_rnn.wav',target_sentence=target_sentence, sentence_form = sentence_form, natural_sentence=natural_sentence, rate=1)
 
 # /post にアクセスしたときの処理
 @app.route('/post', methods=['GET', 'POST'])
