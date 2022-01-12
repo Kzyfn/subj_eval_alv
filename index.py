@@ -27,8 +27,9 @@ def picked_up():
 def index():
     title = "ようこそ"
     message = picked_up()
-    natural_sentence = '車ん中に落ちてたで．'
-    target_sentence = 'くるまんなかにおちてたで'
+    natural_sentence = '昼食とあわしたら1000キロカロリー近くとってることになる．'
+    target_sentence = ['ちゅ', 'う', 'しょ', 'く', 'と', 'あ', 'わ', 'し', 'た', 'ら', 'せ', 'ん', 'き', 'ろ', 'か', 'ろ', 'り', 'ー', 'ち', 'か', 'く',
+    'と', 'っ', 'て', 'る', 'こ', 'と', 'に', 'な', 'る']
 
     sentence_form = []
     for i, letter in enumerate(target_sentence):
@@ -47,18 +48,22 @@ def index():
 @app.route('/post', methods=['GET', 'POST'])
 def post():
     title = "こんにちは"
-    natural_sentence = '車ん中に落ちてたで．'
-    target_sentence = 'くるまんなかにおちてたで'
+    natural_sentence = '昼食とあわしたら1000キロカロリー近くとってることになる．'
+    target_sentence = ['ちゅ', 'う', 'しょ', 'く', 'と', 'あ', 'わ', 'し', 'た', 'ら', 'せ', 'ん', 'き', 'ろ', 'か', 'ろ', 'り', 'ー', 'ち', 'か', 'く',
+    'と', 'っ', 'て', 'る', 'こ', 'と', 'に', 'な', 'る']
     if request.method == 'POST':
         # リクエストフォームから「名前」を取得して
         
         if request.form.get('filepath') is not None:
             #直前の音声データは削除
             filepath = request.form.get('filepath')
-            remove(filepath)
+            try:
+                remove(filepath)
+            except:
+                pass
 
         z = []
-        for i in range(12):
+        for i in range(len(target_sentence)):
             z.append(request.form[str(i)])
 
         rate = float(request.form['rate'])
@@ -76,7 +81,7 @@ def post():
         speech_filepath = synthesize(z, rate)
 
         #speech_filepath='/static/wav/sample.wav'
-        target_sentence = 'くるまんなかにおちてたで'
+        #target_sentence = 'くるまんなかにおちてたで'
 
 
         return render_template('index.html',
